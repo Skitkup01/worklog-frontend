@@ -1,0 +1,112 @@
+.nav {
+  background: linear-gradient(90deg, #1f2937, #111827);
+  backdrop-filter: blur(10px);
+  padding: 6px 0; /* เตี้ยลง */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.logo {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logoIcon {
+  display: flex;
+  align-items: center;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navLink {
+  color: #d1d5db;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navLink.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logoutBtn {
+  padding: 6px 12px;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logoutBtn:hover {
+  background: linear-gradient(90deg, #f87171, #ef4444);
+  transform: scale(1.05);
+}
+
+/* 🐱 Totoro เดินไปมา */
+.totoro-walk {
+  width: 70px;
+  height: 70px;
+  margin-right: 20px;
+  animation: walk-cycle 6s linear infinite;
+}
+
+.totoro-walk svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes walk-cycle {
+  0%   { transform: translateX(0) scaleX(-1); }
+  49%  { transform: translateX(100px) scaleX(-1); }
+  50%  { transform: translateX(100px) scaleX(1); }
+  100% { transform: translateX(0) scaleX(1); }
+}
+
+/* ไอคอน */
+.icon {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* 🎨 ธีมสีตามเมนู */
+.icon.home { color: #60a5fa; }     /* ฟ้า */
+.icon.logs { color: #34d399; }     /* เขียว */
+.icon.status { color: #facc15; }   /* เหลือง */
+.icon.report { color: #a78bfa; }   /* ม่วง */
+.icon.profile { color: #fb923c; }  /* ส้ม */
+.icon.admin { color: #f472b6; }    /* ชมพู */
+.icon.logout { color: #fff; }      /* ขาว */

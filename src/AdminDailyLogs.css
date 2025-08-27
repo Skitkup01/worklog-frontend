@@ -1,0 +1,201 @@
+.admin-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 25px;
+  background: linear-gradient(145deg, #f0f4ff, #ffffff);
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3b3b98;
+  letter-spacing: 0.5px;
+}
+
+/* แถวฟิลเตอร์ */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 100%;
+}
+
+/* ช่อง input ทั่วไป */
+.input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  font-size: 15px;
+  background: white;
+  transition: all 0.25s ease;
+  min-width: 200px;
+}
+
+.input:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 8px rgba(108, 99, 255, 0.3);
+  outline: none;
+}
+
+/* ✅ กล่องผู้อนุมัติ - ย้ายไปขวาสุด */
+.approver-box {
+  margin-left: auto; /* ดันไปขวาสุด */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.approver-label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #3b3b98;
+  font-size: 14px;
+}
+
+.input.approver-input {
+  border: 2px solid #6c63ff;
+  font-weight: 500;
+  min-width: 220px;
+  border-radius: 10px;
+}
+
+.input.approver-input:focus {
+  border-color: #3b3b98;
+  box-shadow: 0 0 8px rgba(59, 59, 152, 0.25);
+}
+
+.error {
+  color: #e63946;
+  text-align: center;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+/* ================= ตาราง ================= */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.table th {
+  background: #6c63ff;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.table td {
+  background: white;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* ทำให้แถวเป็นการ์ด */
+.table tbody tr td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.table tbody tr td:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.table tbody tr {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.table tbody tr:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ================= สถานะ ================= */
+.status {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.status.approved {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+.status.pending {
+  background: rgba(250, 204, 21, 0.15);
+  color: #f59e0b;
+}
+.status.rejected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+}
+
+/* ================= ปุ่ม ================= */
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 4px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn.active {
+  border: 2px solid #111;
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+
+/* อนุมัติ */
+.btn.approve {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+}
+.btn.approve:hover:not(:disabled) {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  transform: scale(1.05);
+}
+
+/* ปฏิเสธ */
+.btn.reject {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  color: white;
+}
+.btn.reject:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  transform: scale(1.05);
+}
+
+/* รออนุมัติ */
+.btn.pending {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+}
+.btn.pending:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  transform: scale(1.05);
+}
+
+/* ================= Animation ================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

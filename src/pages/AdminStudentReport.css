@@ -1,0 +1,181 @@
+/* Layout */
+.admin-page {
+  max-width: 1200px;
+  margin: 25px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Titles */
+.title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.subtitle {
+  margin: 25px 0 15px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #34495e;
+}
+
+/* Search & Actions */
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn.print {
+  background: linear-gradient(135deg, #7a5af8, #6c63ff);
+  color: white;
+  font-weight: 600;
+}
+
+.btn.print:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 25px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.table th {
+  background: #7a5af8;
+  color: white;
+  font-weight: 600;
+}
+
+.table tbody tr:nth-child(even) { background-color: #fafafa; }
+.table tbody tr:hover { background-color: #f1f7ff; }
+
+/* Status Numbers */
+.status-number {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.green { background-color: #27ae60; }
+.red { background-color: #c0392b; }
+.yellow { background-color: #f39c12; }
+
+/* Status Badge */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #fff;
+}
+.status-approved { background: #27ae60; }
+.status-pending { background: #f39c12; }
+.status-rejected { background: #c0392b; }
+
+/* Error */
+.error {
+  color: #c0392b;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ============================= */
+/* 📄 Print Mode (ใช้ window.print) */
+/* ============================= */
+@media print {
+  body {
+    background: white !important;
+    font-size: 12px;
+    line-height: 1.4;
+    font-family: "TH Sarabun New", "Segoe UI", sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .admin-page {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    max-width: 100% !important;
+  }
+
+  .title, .subtitle {
+    text-align: center;
+    color: black !important;
+    margin-bottom: 10px;
+  }
+
+  .table {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 11px;
+  }
+
+  .table th, .table td {
+    border: 1px solid #000 !important;
+    padding: 6px !important;
+    text-align: center;
+  }
+
+  .table th {
+    background: #e0e0e0 !important;
+    color: black !important;
+  }
+
+  /* เปลี่ยน badge/number ให้ขาวดำเวลา print */
+  .status-number,
+  .status-badge {
+    background: none !important;
+    color: black !important;
+    border: 1px solid #000 !important;
+  }
+}

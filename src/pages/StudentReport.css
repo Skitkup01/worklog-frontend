@@ -1,0 +1,167 @@
+body {
+  background: #f5f7fa;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.report-container {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 15px;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.error-text {
+  color: red;
+  text-align: center;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-bar input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.btn-print {
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.btn-print:hover {
+  background: #2980b9;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.card {
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card h4 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.card.approved { background: #2ecc71; }
+.card.rejected { background: #e74c3c; }
+.card.pending { background: #f39c12; }
+.card.total { background: #34495e; }
+
+/* Table */
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  font-size: 0.95rem;
+}
+
+.log-table th, 
+.log-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.log-table thead {
+  background: #4a90e2;
+  color: white;
+}
+
+.log-table tr:hover {
+  background: #f9f9f9;
+}
+
+/* ให้รหัสนักศึกษาเป็น font-mono เพื่ออ่านง่าย */
+.log-table td:nth-child(2) {
+  font-family: "Consolas", "Courier New", monospace;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* ชื่อผู้บันทึก */
+.log-table td:nth-child(3) {
+  text-align: left;
+  padding-left: 16px;
+  color: #34495e;
+  font-weight: 500;
+}
+
+/* Status Badge → ปรับ pill style */
+.status-badge {
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 999px;     /* pill shape */
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* เงานิด ๆ ให้ดู modern */
+}
+
+.status-badge.approved { background: #27ae60; }
+.status-badge.pending  { background: #f1c40f; color: #333; }
+.status-badge.rejected { background: #e74c3c; }
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Print Mode */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .log-table th, .log-table td {
+    border: 1px solid #000 !important;
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  /* ✅ เอากรอบออกเฉพาะคอลัมน์สถานะ */
+  .log-table td:nth-child(5) {
+    border: none !important;
+  }
+
+  /* ✅ ให้ badge มีกรอบบาง ๆ เอง เวลา print */
+  .status-badge {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}
