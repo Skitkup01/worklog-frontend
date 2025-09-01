@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DailyLogStatus.css"; 
-
-// 🎨 นำเข้า icons จาก react-icons
 import { FaCheckCircle, FaHourglassHalf, FaTimesCircle } from "react-icons/fa";
 
 export default function DailyLogStatus() {
@@ -89,21 +87,90 @@ export default function DailyLogStatus() {
       {logs.length === 0 ? (
         <p className="no-data">ยังไม่มีบันทึกงาน</p>
       ) : (
-        <table className="log-table">
-          <thead>
-            <tr>
-              <th>วันที่บันทึก</th>
-              <th>รายละเอียด</th>
-              <th>สถานะ</th>
-              <th>ผู้ตรวจ</th>
-              <th>จัดการ</th>
-            </tr>
-          </thead>
-          <tbody>
+        <>
+          {/* ✅ Table สำหรับ Desktop */}
+          <div className="table-wrapper">
+            <table className="log-table">
+              <thead>
+                <tr>
+                  <th>วันที่บันทึก</th>
+                  <th>รายละเอียด</th>
+                  <th>สถานะ</th>
+                  <th>ผู้ตรวจ</th>
+                  <th>จัดการ</th>
+                </tr>
+              </thead>
+              <tbody>
+                {logs.map((log) => (
+                  <tr key={log.log_id}>
+                    <td>{formatDateTimeThai(log.created_at)}</td>
+                    <td>
+                      {editingId === log.log_id ? (
+                        <input
+                          type="text"
+                          value={editActivity}
+                          onChange={(e) => setEditActivity(e.target.value)}
+                        />
+                      ) : (
+                        log.activity
+                      )}
+                    </td>
+                    <td>
+                      <span className={getStatusClass(log.status)}>
+                        {log.status?.toLowerCase().trim() === "approved" && (
+                          <>
+                            <FaCheckCircle /> อนุมัติแล้ว
+                          </>
+                        )}
+                        {log.status?.toLowerCase().trim() === "pending" && (
+                          <>
+                            <FaHourglassHalf /> รออนุมัติ
+                          </>
+                        )}
+                        {log.status?.toLowerCase().trim() === "rejected" && (
+                          <>
+                            <FaTimesCircle /> ถูกปฏิเสธ
+                          </>
+                        )}
+                      </span>
+                    </td>
+                    <td>{log.approved_by || "-"}</td>
+                    <td>
+                      {editingId === log.log_id ? (
+                        <>
+                          <button
+                            className="btn-save"
+                            onClick={() => saveEdit(log.log_id)}
+                          >
+                            บันทึก
+                          </button>
+                          <button className="btn-cancel" onClick={cancelEdit}>
+                            ยกเลิก
+                          </button>
+                        </>
+                      ) : (
+                        log.status?.toLowerCase().trim() === "pending" && (
+                          <button
+                            className="btn-edit"
+                            onClick={() => startEdit(log)}
+                          >
+                            แก้ไข
+                          </button>
+                        )
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* ✅ Card สำหรับ Mobile */}
+          <div className="log-cards">
             {logs.map((log) => (
-              <tr key={log.log_id}>
-                <td>{formatDateTimeThai(log.created_at)}</td>
-                <td>
+              <div key={log.log_id} className="log-card">
+                <p><strong>📅 วันที่:</strong> {formatDateTimeThai(log.created_at)}</p>
+                <p><strong>📝 รายละเอียด:</strong>{" "}
                   {editingId === log.log_id ? (
                     <input
                       type="text"
@@ -113,55 +180,30 @@ export default function DailyLogStatus() {
                   ) : (
                     log.activity
                   )}
-                </td>
-                <td>
+                </p>
+                <p>
+                  <strong>📌 สถานะ:</strong>{" "}
                   <span className={getStatusClass(log.status)}>
-                    {log.status?.toLowerCase().trim() === "approved" && (
-                      <>
-                        <FaCheckCircle /> อนุมัติแล้ว
-                      </>
-                    )}
-                    {log.status?.toLowerCase().trim() === "pending" && (
-                      <>
-                        <FaHourglassHalf /> รออนุมัติ
-                      </>
-                    )}
-                    {log.status?.toLowerCase().trim() === "rejected" && (
-                      <>
-                        <FaTimesCircle /> ถูกปฏิเสธ
-                      </>
-                    )}
+                    {log.status}
                   </span>
-                </td>
-                <td>{log.approved_by || "-"}</td>
-                <td>
+                </p>
+                <p><strong>👤 ผู้ตรวจ:</strong> {log.approved_by || "-"}</p>
+                <div className="card-buttons">
                   {editingId === log.log_id ? (
                     <>
-                      <button
-                        className="btn-save"
-                        onClick={() => saveEdit(log.log_id)}
-                      >
-                        บันทึก
-                      </button>
-                      <button className="btn-cancel" onClick={cancelEdit}>
-                        ยกเลิก
-                      </button>
+                      <button className="btn-save" onClick={() => saveEdit(log.log_id)}>บันทึก</button>
+                      <button className="btn-cancel" onClick={cancelEdit}>ยกเลิก</button>
                     </>
                   ) : (
                     log.status?.toLowerCase().trim() === "pending" && (
-                      <button
-                        className="btn-edit"
-                        onClick={() => startEdit(log)}
-                      >
-                        แก้ไข
-                      </button>
+                      <button className="btn-edit" onClick={() => startEdit(log)}>แก้ไข</button>
                     )
                   )}
-                </td>
-              </tr>
+                </div>
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </>
       )}
     </div>
   );

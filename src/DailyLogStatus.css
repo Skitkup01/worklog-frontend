@@ -43,7 +43,13 @@
   font-size: 1rem;
 }
 
-/* Table */
+/* ✅ ครอบตาราง */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+/* Table (Desktop) */
 .log-table {
   width: 100%;
   border-collapse: collapse;
@@ -80,7 +86,7 @@
   transition: background 0.3s ease;
 }
 
-/* Status (flex + align center) */
+/* Status */
 .status-approved, 
 .status-pending, 
 .status-rejected {
@@ -91,7 +97,7 @@
   height: 38px;               
   min-width: 120px;           
   padding: 0 14px;
-  border-radius: 20px;        /* pill shape */
+  border-radius: 20px;
   font-weight: 600;
   font-size: 0.9rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
@@ -112,7 +118,7 @@
   color: #fff;
 }
 
-/* Input edit mode */
+/* Input edit */
 .log-table input[type="text"] {
   padding: 8px 10px;
   border: 1px solid #ccc;
@@ -131,7 +137,7 @@
 .btn-edit, .btn-save, .btn-cancel {
   display: inline-flex;
   align-items: center;
-  gap: 6px; /* space for icon + text */
+  gap: 6px;
   padding: 7px 14px;
   border: none;
   border-radius: 6px;
@@ -143,29 +149,68 @@
 }
 
 .btn-edit { background: #3498db; }
-.btn-edit:hover { 
-  background: #2980b9; 
-  transform: scale(1.05); 
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
+.btn-edit:hover { background: #2980b9; transform: scale(1.05); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
 
 .btn-save { background: #2ecc71; margin-right: 6px; }
-.btn-save:hover { 
-  background: #27ae60; 
-  transform: scale(1.05); 
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
+.btn-save:hover { background: #27ae60; transform: scale(1.05); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
 
 .btn-cancel { background: #e74c3c; }
-.btn-cancel:hover { 
-  background: #c0392b; 
-  transform: scale(1.05); 
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
+.btn-cancel:hover { background: #c0392b; transform: scale(1.05); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
 
-/* Fade-in Animation */
+/* Fade-in */
 .fade-in { animation: fadeIn 0.6s ease-in-out; }
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(8px);}
   to {opacity: 1; transform: translateY(0);}
+}
+
+/* ✅ Card View (Mobile) */
+.log-cards {
+  display: none;
+}
+.log-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  font-size: 14px;
+}
+.log-card p { margin: 6px 0; }
+.log-card strong { color: #2c3e50; }
+.card-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.card-buttons button { flex: 1; }
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .dailylogstatus-container { padding: 15px; }
+
+  /* ❌ ซ่อนตาราง, ✅ โชว์การ์ด */
+  .log-table { display: none; }
+  .log-cards { display: block; }
+
+  .page-title { font-size: 1.8rem; }
+
+  /* ลดขนาด Status Badge */
+  .status-approved, 
+  .status-pending, 
+  .status-rejected {
+    min-width: auto;
+    padding: 4px 10px;
+    height: auto;
+    font-size: 0.75rem;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .page-title { font-size: 1.5rem; }
+  .log-card { font-size: 13px; padding: 12px; }
+  .card-buttons button { font-size: 0.8rem; }
 }

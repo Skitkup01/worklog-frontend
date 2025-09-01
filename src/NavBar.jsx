@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Lottie from "lottie-react";
 import {
@@ -9,12 +9,15 @@ import {
   User,
   Settings,
   Power,
-} from "lucide-react"; // ✅ ใช้ icons
+  Menu,
+  X,
+} from "lucide-react";
 import totoroWalk from "./assets/Totoro.json";
 import "./NavBar.css";
 
 export default function NavBar({ user, onLogout }) {
   const location = useLocation();
+  const [open, setOpen] = useState(false);
 
   if (location.pathname === "/login" || location.pathname === "/register") {
     return null;
@@ -38,11 +41,17 @@ export default function NavBar({ user, onLogout }) {
           <Lottie animationData={totoroWalk} loop={true} />
         </div>
 
-        {/* เมนู */}
-        <div className="menu">
+        {/* ปุ่ม Hamburger (มือถือ) */}
+        <div className="hamburger" onClick={() => setOpen(!open)}>
+          {open ? <X size={24} color="#fff" /> : <Menu size={24} color="#fff" />}
+        </div>
+
+        {/* เมนูหลัก */}
+        <div className={`menu ${open ? "show" : ""}`}>
           <Link
             className={`navLink ${isActive("/dashboard") ? "active" : ""}`}
             to="/dashboard"
+            onClick={() => setOpen(false)}
           >
             <Home size={18} className="icon home" /> หน้าหลัก
           </Link>
@@ -50,6 +59,7 @@ export default function NavBar({ user, onLogout }) {
           <Link
             className={`navLink ${isActive("/daily-logs") ? "active" : ""}`}
             to="/daily-logs"
+            onClick={() => setOpen(false)}
           >
             <FileText size={18} className="icon logs" /> บันทึกงาน
           </Link>
@@ -57,6 +67,7 @@ export default function NavBar({ user, onLogout }) {
           <Link
             className={`navLink ${isActive("/daily-log-status") ? "active" : ""}`}
             to="/daily-log-status"
+            onClick={() => setOpen(false)}
           >
             <Bell size={18} className="icon status" /> สถานะ
           </Link>
@@ -64,6 +75,7 @@ export default function NavBar({ user, onLogout }) {
           <Link
             className={`navLink ${isActive("/student-report") ? "active" : ""}`}
             to="/student-report"
+            onClick={() => setOpen(false)}
           >
             <BarChart3 size={18} className="icon report" /> รายงาน
           </Link>
@@ -71,6 +83,7 @@ export default function NavBar({ user, onLogout }) {
           <Link
             className={`navLink ${isActive("/profile") ? "active" : ""}`}
             to="/profile"
+            onClick={() => setOpen(false)}
           >
             <User size={18} className="icon profile" /> โปรไฟล์
           </Link>
@@ -79,6 +92,7 @@ export default function NavBar({ user, onLogout }) {
             <Link
               className={`navLink ${isActive("/admin-daily-logs") ? "active" : ""}`}
               to="/admin-daily-logs"
+              onClick={() => setOpen(false)}
             >
               <Settings size={18} className="icon admin" /> จัดการ
             </Link>

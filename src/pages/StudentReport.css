@@ -9,6 +9,7 @@ body {
   padding: 15px;
 }
 
+/* 🎯 Title */
 .page-title {
   text-align: center;
   font-size: 1.8rem;
@@ -20,21 +21,24 @@ body {
 .error-text {
   color: red;
   text-align: center;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
+/* 🔍 Filter */
 .filter-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
 }
-
 .filter-bar input {
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   flex: 1;
+  min-width: 150px;
 }
-
 .btn-print {
   background: #3498db;
   color: white;
@@ -42,41 +46,45 @@ body {
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
+  font-weight: 600;
 }
 .btn-print:hover {
   background: #2980b9;
 }
 
-/* Summary Cards */
+/* 📊 Summary Cards */
 .summary-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
   margin-bottom: 25px;
 }
-
 .card {
   padding: 15px;
   border-radius: 12px;
   text-align: center;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
 }
-
 .card h4 {
-  font-size: 1rem;
   margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 500;
 }
-
 .card.approved { background: #2ecc71; }
 .card.rejected { background: #e74c3c; }
-.card.pending { background: #f39c12; }
-.card.total { background: #34495e; }
+.card.pending  { background: #f39c12; }
+.card.total    { background: #34495e; }
 
-/* Table */
+/* 📜 Table */
+.table-wrapper {
+  overflow-x: auto; /* ✅ มือถือเลื่อนได้ */
+  -webkit-overflow-scrolling: touch;
+}
 .log-table {
   width: 100%;
+  min-width: 650px;
   border-collapse: collapse;
   background: white;
   border-radius: 10px;
@@ -84,31 +92,26 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   font-size: 0.95rem;
 }
-
-.log-table th, 
+.log-table th,
 .log-table td {
   padding: 12px;
   text-align: center;
   border-bottom: 1px solid #eee;
 }
-
 .log-table thead {
   background: #4a90e2;
   color: white;
 }
-
 .log-table tr:hover {
   background: #f9f9f9;
 }
 
-/* ให้รหัสนักศึกษาเป็น font-mono เพื่ออ่านง่าย */
+/* 🎯 Special cols */
 .log-table td:nth-child(2) {
   font-family: "Consolas", "Courier New", monospace;
-  color: #2c3e50;
   font-weight: 600;
+  color: #2c3e50;
 }
-
-/* ชื่อผู้บันทึก */
 .log-table td:nth-child(3) {
   text-align: left;
   padding-left: 16px;
@@ -116,52 +119,155 @@ body {
   font-weight: 500;
 }
 
-/* Status Badge → ปรับ pill style */
+/* 📌 Status Badge */
 .status-badge {
   display: inline-block;
   min-width: 80px;
   text-align: center;
   padding: 6px 12px;
-  border-radius: 999px;     /* pill shape */
+  border-radius: 999px; /* pill */
   font-weight: 600;
   font-size: 0.85rem;
   color: #fff;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* เงานิด ๆ ให้ดู modern */
 }
+.status-approved { background: #27ae60; }
+.status-pending  { background: #f1c40f; color: #333; }
+.status-rejected { background: #e74c3c; }
 
-.status-badge.approved { background: #27ae60; }
-.status-badge.pending  { background: #f1c40f; color: #333; }
-.status-badge.rejected { background: #e74c3c; }
-
+/* 🌟 Animation */
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Print Mode */
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .page-title { font-size: 1.6rem; }
+  .log-table { font-size: 0.85rem; }
+}
+@media (max-width: 500px) {
+  .page-title { font-size: 1.4rem; }
+  .filter-bar { flex-direction: column; }
+  .btn-print { width: 100%; }
+}
+
+/* 🖨 Print Mode */
 @media print {
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   .no-print {
     display: none !important;
   }
 
-  .log-table th, .log-table td {
+  .report-container {
+    margin: 0;
+    padding: 0;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+
+  /* ✅ หัวรายงาน */
+  .print-header {
+    display: block !important;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: black !important;
+  }
+  .print-sub {
+    display: block !important;
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 15px;
+    color: black !important;
+  }
+
+  /* ✅ Table */
+  .table-wrapper {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .log-table {
+    display: table !important;
+    width: 100% !important;
     border: 1px solid #000 !important;
-    font-size: 12px;
-    padding: 6px;
+    font-size: 12px !important;
+    border-collapse: collapse !important;
+    background: white !important;
   }
 
-  /* ✅ เอากรอบออกเฉพาะคอลัมน์สถานะ */
-  .log-table td:nth-child(5) {
-    border: none !important;
+  .log-table th,
+  .log-table td {
+    border: 1px solid #000 !important;
+    padding: 6px !important;
+    text-align: center !important;
+    color: black !important;
+    background: white !important;
   }
 
-  /* ✅ ให้ badge มีกรอบบาง ๆ เอง เวลา print */
+  .log-table thead {
+    background: #e0e0e0 !important;
+    color: black !important;
+  }
+
+  /* ✅ Badge -> แปลงเป็นกรอบดำ */
   .status-badge {
+    background: none !important;
     border: 1px solid #000 !important;
+    color: black !important;
     box-shadow: none !important;
   }
+
+  /* ✅ ซ่อน URL footer ของ Chrome */
+  @page {
+    margin: 20mm;
+  }
 }
+/* 📜 Table Wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;              /* ✅ เลื่อนซ้าย-ขวาได้ */
+  -webkit-overflow-scrolling: touch;
+  display: block;                /* ✅ กัน flex/grid บีบ */
+}
+
+/* 📊 Table */
+.log-table {
+  display: table;                /* ✅ บังคับเป็น table */
+  width: 100%;
+  min-width: 650px;              /* ✅ ป้องกันซ้อนคอลัมน์ */
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  font-size: 0.95rem;
+  table-layout: auto;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .table-wrapper {
+    display: block !important;   /* ✅ บังคับ scroll */
+    overflow-x: auto !important;
+  }
+  .log-table {
+    min-width: 600px;            /* ✅ ยังเลื่อนได้ ไม่หาย */
+    font-size: 0.85rem;
+  }
+  .log-table th,
+  .log-table td {
+    padding: 8px;
+    white-space: nowrap;         /* ✅ กันข้อมูลแตกบรรทัดจนเพี้ยน */
+  }
+}
+

@@ -9,13 +9,14 @@ export default function DailyLogs() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  // คำนวณวันที่วันนี้ในรูปแบบ YYYY-MM-DD
+  // ✅ วันที่วันนี้
   const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     fetchLogs();
   }, []);
 
+  // ✅ โหลด log ของผู้ใช้
   const fetchLogs = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -33,6 +34,7 @@ export default function DailyLogs() {
     }
   };
 
+  // ✅ บันทึก log ใหม่
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -54,13 +56,25 @@ export default function DailyLogs() {
         setMessage(data.message);
         setLogDate("");
         setActivity("");
-        fetchLogs();
+        fetchLogs(); // โหลดรายการใหม่
       } else {
         setError(data.error);
       }
     } catch {
       setError("เชื่อมต่อ server ไม่ได้");
     }
+  };
+
+  // ✅ ฟังก์ชันแปลงวันที่
+  const formatDateThai = (date) => {
+    if (!date) return "-";
+    return new Date(date).toLocaleString("th-TH", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
   };
 
   return (
@@ -70,13 +84,14 @@ export default function DailyLogs() {
       {error && <p className="error-text">{error}</p>}
       {message && <p className="success-text">{message}</p>}
 
+      {/* ฟอร์มบันทึก */}
       <form onSubmit={handleSubmit} className="form-card pop-up">
         <label>วันที่</label>
         <input
           type="date"
           value={logDate}
           onChange={(e) => setLogDate(e.target.value)}
-          max={today} // จำกัดให้เลือกได้ไม่เกินวันนี้
+          max={today}
           required
         />
         <label>กิจกรรม</label>
@@ -87,6 +102,8 @@ export default function DailyLogs() {
         />
         <button className="btn-submit">บันทึก</button>
       </form>
+
+
     </div>
   );
 }

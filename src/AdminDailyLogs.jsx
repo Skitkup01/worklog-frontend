@@ -12,7 +12,6 @@ export default function AdminDailyLogs() {
   const [approverName, setApproverName] = useState("");
   const token = localStorage.getItem("token");
 
-  // โหลดข้อมูล log + universities
   const fetchLogs = () => {
     let url = "http://localhost:5001/api/daily-logs-all";
     const params = [];
@@ -38,7 +37,6 @@ export default function AdminDailyLogs() {
     fetchLogs();
   }, [searchDate, searchName, searchUniversity, searchStatus]);
 
-  // อัปเดตสถานะ
   const updateStatus = (id, status) => {
     if (!approverName.trim()) {
       alert("⚠️ กรุณากรอกชื่อผู้อนุมัติก่อน");
@@ -55,7 +53,6 @@ export default function AdminDailyLogs() {
     })
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(() => {
-        // ✅ อัปเดต state ทันที
         setLogs(prevLogs =>
           prevLogs.map(log =>
             log.log_id === id
@@ -86,16 +83,13 @@ export default function AdminDailyLogs() {
     <div className="admin-page">
       <h2 className="title">จัดการบันทึกงานนักศึกษา</h2>
 
-      {/* 🔍 ฟิลเตอร์ */}
       <div className="filter-row">
         <input type="date" value={searchDate} onChange={(e) => setSearchDate(e.target.value)} className="input" />
         <input type="text" placeholder="ค้นหาชื่อผู้บันทึก" value={searchName} onChange={(e) => setSearchName(e.target.value)} className="input" />
         <select value={searchUniversity} onChange={(e) => setSearchUniversity(e.target.value)} className="input">
           <option value="">-- เลือกมหาวิทยาลัยทั้งหมด --</option>
           {universities.length > 0 ? (
-            universities.map((u, idx) => (
-              <option key={idx} value={u}>{u}</option>
-            ))
+            universities.map((u, idx) => <option key={idx} value={u}>{u}</option>)
           ) : (
             <option disabled>ไม่มีข้อมูลมหาวิทยาลัย</option>
           )}
@@ -107,7 +101,6 @@ export default function AdminDailyLogs() {
           <option value="rejected">❌ ปฏิเสธ</option>
         </select>
 
-        {/* ✍️ ช่องกรอกชื่อผู้อนุมัติ → ย้ายมาขวาสุด */}
         <div className="approver-box">
           <label className="approver-label">👤 ผู้อนุมัติ</label>
           <input
@@ -122,9 +115,9 @@ export default function AdminDailyLogs() {
 
       {error && <p className="error">{error}</p>}
 
-      {/* ตาราง */}
+      {/* Table สำหรับ Desktop */}
       <div className="table-wrapper">
-        <table className="table">
+        <table className="table desktop-only">
           <thead>
             <tr>
               <th>วันที่ทำกิจกรรม</th>
@@ -149,37 +142,36 @@ export default function AdminDailyLogs() {
                   <td>{statusLabel(log.status)}</td>
                   <td>{log.approved_by || "-"}</td>
                   <td>
-                    <button 
-                      onClick={() => updateStatus(log.log_id, "approved")} 
-                      className={`btn approve ${log.status === "approved" ? "active" : ""}`}
-                      disabled={log.status === "approved"}
-                    >
-                      อนุมัติ
-                    </button>
-                    <button 
-                      onClick={() => updateStatus(log.log_id, "rejected")} 
-                      className={`btn reject ${log.status === "rejected" ? "active" : ""}`}
-                      disabled={log.status === "rejected"}
-                    >
-                      ปฏิเสธ
-                    </button>
-                    <button 
-                      onClick={() => updateStatus(log.log_id, "pending")} 
-                      className={`btn pending ${log.status === "pending" ? "active" : ""}`}
-                      disabled={log.status === "pending"}
-                    >
-                      รออนุมัติ
-                    </button>
+                    <button onClick={() => updateStatus(log.log_id, "approved")} className={`btn approve ${log.status === "approved" ? "active" : ""}`} disabled={log.status === "approved"}>อนุมัติ</button>
+                    <button onClick={() => updateStatus(log.log_id, "rejected")} className={`btn reject ${log.status === "rejected" ? "active" : ""}`} disabled={log.status === "rejected"}>ปฏิเสธ</button>
+                    <button onClick={() => updateStatus(log.log_id, "pending")} className={`btn pending ${log.status === "pending" ? "active" : ""}`} disabled={log.status === "pending"}>รออนุมัติ</button>
                   </td>
                 </tr>
               ))
             ) : (
-              <tr>
-                <td colSpan="8" style={{ textAlign: "center", padding: "15px" }}>ไม่มีข้อมูล</td>
-              </tr>
+              <tr><td colSpan="8" style={{ textAlign: "center", padding: "15px" }}>ไม่มีข้อมูล</td></tr>
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Card View สำหรับ Mobile */}
+      <div className="log-cards mobile-only">
+        {logs.length > 0 ? logs.map(log => (
+          <div key={log.log_id} className="log-card">
+            <p><strong>📅 วันที่:</strong> {formatDateThai(log.log_date)}</p>
+            <p><strong>📝 กิจกรรม:</strong> {log.activity}</p>
+            <p><strong>👤 ผู้บันทึก:</strong> {log.fullname}</p>
+            <p><strong>🏫 มหาวิทยาลัย:</strong> {log.university || "-"}</p>
+            <p><strong>📌 สถานะ:</strong> {statusLabel(log.status)}</p>
+            <p><strong>✔ ผู้อนุมัติ:</strong> {log.approved_by || "-"}</p>
+            <div className="card-buttons">
+              <button onClick={() => updateStatus(log.log_id, "approved")} className="btn approve" disabled={log.status === "approved"}>อนุมัติ</button>
+              <button onClick={() => updateStatus(log.log_id, "rejected")} className="btn reject" disabled={log.status === "rejected"}>ปฏิเสธ</button>
+              <button onClick={() => updateStatus(log.log_id, "pending")} className="btn pending" disabled={log.status === "pending"}>รออนุมัติ</button>
+            </div>
+          </div>
+        )) : <p style={{ textAlign: "center" }}>ไม่มีข้อมูล</p>}
       </div>
     </div>
   );

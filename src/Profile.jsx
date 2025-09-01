@@ -11,9 +11,7 @@ export default function Profile() {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.ok ? res.json() : Promise.reject(res))
-      .then(data => {
-        setForm(data.user);
-      })
+      .then(data => setForm(data.user))
       .catch(() => setMessage("โหลดข้อมูลไม่สำเร็จ"))
       .finally(() => setLoading(false));
   }, [token]);
@@ -42,20 +40,10 @@ export default function Profile() {
 
   return (
     <>
-      {/* ✅ CSS Animation ฝังตรงนี้เลย */}
       <style>{`
-        .fade-in {
-          animation: fadeIn 0.5s ease-in-out;
-        }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-slide {
-          animation: slideDown 0.4s ease-in-out;
-        }
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-10px); }
           to { opacity: 1; transform: translateY(0); }
         }
         .btn-animate:hover {
@@ -67,15 +55,22 @@ export default function Profile() {
           box-shadow: 0 0 6px rgba(37,99,235,0.3);
           outline: none;
         }
+        /* 📱 Responsive */
+        @media (max-width: 600px) {
+          .profile-container { padding: 15px; margin: 10px; }
+          .profile-title { font-size: 1.2rem; }
+          .profile-input { font-size: 0.9rem; padding: 8px; }
+          .profile-button { font-size: 0.9rem; padding: 9px; }
+        }
       `}</style>
 
-      <div style={styles.container} className="fade-in">
-        <h2 style={styles.title}>แก้ไขโปรไฟล์</h2>
-        {message && <p style={styles.message} className="fade-slide">{message}</p>}
+      <div className="profile-container fade-in" style={styles.container}>
+        <h2 className="profile-title" style={styles.title}>👤 แก้ไขโปรไฟล์</h2>
+        {message && <p style={styles.message}>{message}</p>}
 
         <form onSubmit={handleSubmit} style={styles.form}>
           <label>รหัสนักศึกษา</label>
-          <input value={form.student_code || ""} disabled style={styles.input} />
+          <input value={form.student_code || ""} disabled style={styles.input} className="profile-input" />
 
           <label>ชื่อ-นามสกุล</label>
           <input
@@ -83,6 +78,7 @@ export default function Profile() {
             value={form.fullname || ""}
             onChange={handleChange}
             style={styles.input}
+            className="profile-input"
           />
 
           <label>อีเมล</label>
@@ -91,6 +87,7 @@ export default function Profile() {
             value={form.email || ""}
             disabled
             style={styles.input}
+            className="profile-input"
           />
 
           <label>มหาวิทยาลัย</label>
@@ -99,6 +96,7 @@ export default function Profile() {
             value={form.university || ""}
             onChange={handleChange}
             style={styles.input}
+            className="profile-input"
           />
 
           <label>เบอร์โทร</label>
@@ -107,6 +105,7 @@ export default function Profile() {
             value={form.phone || ""}
             onChange={handleChange}
             style={styles.input}
+            className="profile-input"
           />
 
           <label>ห้องพัก</label>
@@ -115,10 +114,11 @@ export default function Profile() {
             value={form.room || ""}
             onChange={handleChange}
             style={styles.input}
+            className="profile-input"
           />
 
-          <button type="submit" style={styles.button} className="btn-animate">
-            บันทึก
+          <button type="submit" style={styles.button} className="btn-animate profile-button">
+            💾 บันทึก
           </button>
         </form>
       </div>
@@ -132,28 +132,35 @@ const styles = {
     margin: "20px auto",
     padding: "20px",
     background: "#fff",
-    borderRadius: "10px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    borderRadius: "12px",
+    boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
   },
-  title: { fontSize: "1.4rem", marginBottom: "15px", textAlign: "center" },
+  title: { 
+    fontSize: "1.4rem", 
+    marginBottom: "15px", 
+    textAlign: "center", 
+    color: "#1e3a8a",
+    fontWeight: "600"
+  },
   form: { display: "flex", flexDirection: "column", gap: "12px" },
   input: {
     padding: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "6px",
+    border: "1px solid #d1d5db",
+    borderRadius: "8px",
     fontSize: "0.95rem",
+    background: "#f9fafb",
     transition: "all 0.3s ease",
   },
   button: {
-    padding: "10px",
+    padding: "12px",
     background: "linear-gradient(90deg,#2563eb,#1e40af)",
     color: "#fff",
     border: "none",
-    borderRadius: "6px",
+    borderRadius: "8px",
     cursor: "pointer",
     fontSize: "1rem",
-    fontWeight: "500",
+    fontWeight: "600",
     transition: "transform 0.2s ease, box-shadow 0.2s ease",
   },
-  message: { textAlign: "center", marginBottom: "10px", color: "green" }
+  message: { textAlign: "center", marginBottom: "10px", color: "green", fontWeight: "500" }
 };

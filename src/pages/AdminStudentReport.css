@@ -1,4 +1,4 @@
-/* Layout */
+/* 🎨 Layout */
 .admin-page {
   max-width: 1200px;
   margin: 25px auto;
@@ -9,7 +9,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Titles */
+/* 🏷 Titles */
 .title {
   text-align: center;
   margin-bottom: 25px;
@@ -17,7 +17,6 @@
   font-weight: 700;
   color: #2c3e50;
 }
-
 .subtitle {
   margin: 25px 0 15px;
   font-size: 1.3rem;
@@ -25,97 +24,150 @@
   color: #34495e;
 }
 
-/* Search & Actions */
+/* 🔍 Filter Row */
 .filter-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
   margin-bottom: 25px;
 }
-
 .input {
-  padding: 8px 12px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
+  background: #fdfdfd;
+  transition: all 0.2s ease;
 }
-
+.input:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 6px rgba(108,99,255,0.3);
+  outline: none;
+}
 .btn {
   padding: 10px 15px;
   font-size: 14px;
   border-radius: 8px;
   cursor: pointer;
   border: none;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
-
 .btn.print {
   background: linear-gradient(135deg, #7a5af8, #6c63ff);
   color: white;
   font-weight: 600;
 }
-
 .btn.print:hover {
   opacity: 0.9;
   transform: translateY(-2px);
 }
 
-/* Table */
+/* ========================= */
+/* 📊 Table View (Desktop)  */
+/* ========================= */
 .table-wrapper {
   overflow-x: auto;
   margin-bottom: 25px;
 }
-
 .table {
   width: 100%;
   border-collapse: collapse;
   border-radius: 10px;
   overflow: hidden;
+  font-size: 0.95rem;
 }
-
 .table th, .table td {
   padding: 12px 10px;
   text-align: center;
   border-bottom: 1px solid #eee;
 }
-
 .table th {
   background: #7a5af8;
   color: white;
   font-weight: 600;
 }
-
 .table tbody tr:nth-child(even) { background-color: #fafafa; }
 .table tbody tr:hover { background-color: #f1f7ff; }
 
-/* Status Numbers */
+/* ========================= */
+/* 🎯 Summary Numbers       */
+/* ========================= */
 .status-number {
-  display: inline-block;
-  width: 36px;
-  height: 36px;
-  line-height: 36px;
-  text-align: center;
-  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 50px;   /* pill */
+  font-weight: 600;
+  font-size: 0.85rem;
   color: #fff;
-  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
+.green  { background: linear-gradient(135deg, #34d399, #059669); }
+.red    { background: linear-gradient(135deg, #f87171, #dc2626); }
+.yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
 
-.green { background-color: #27ae60; }
-.red { background-color: #c0392b; }
-.yellow { background-color: #f39c12; }
-
-/* Status Badge */
+/* ========================= */
+/* 🎯 Status Badge          */
+/* ========================= */
 .status-badge {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
   color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
 }
-.status-approved { background: #27ae60; }
-.status-pending { background: #f39c12; }
-.status-rejected { background: #c0392b; }
+.status-approved { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.status-pending  { background: linear-gradient(135deg, #facc15, #eab308); color: #333; }
+.status-rejected { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+.status-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
 
-/* Error */
+/* ========================= */
+/* 📝 Card View (Mobile)    */
+/* ========================= */
+.card-list {
+  display: none;
+}
+.card-report {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-size: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-report:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+.card-report p {
+  margin: 6px 0;
+  color: #333;
+}
+.card-report strong {
+  color: #2c3e50;
+}
+
+/* ❌ No data */
+.no-data {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+}
+
+/* ⚠️ Error */
 .error {
   color: #c0392b;
   font-weight: 600;
@@ -123,8 +175,22 @@
   margin-bottom: 20px;
 }
 
+/* ========================= */
+/* 📱 Responsive            */
+/* ========================= */
+@media (max-width: 768px) {
+  .table-wrapper { display: none; }
+  .card-list { display: block; }
+}
+@media (max-width: 500px) {
+  .title { font-size: 1.6rem; }
+  .subtitle { font-size: 1.1rem; }
+  .filter-row { grid-template-columns: 1fr; }
+  .card-report { font-size: 13px; padding: 12px; }
+}
+
 /* ============================= */
-/* 📄 Print Mode (ใช้ window.print) */
+/* 🖨️ Print Mode (window.print) */
 /* ============================= */
 @media print {
   body {
@@ -136,7 +202,7 @@
     print-color-adjust: exact;
   }
 
-  .no-print {
+  .no-print, .card-list, .filter-row, .btn {
     display: none !important;
   }
 
@@ -153,29 +219,28 @@
     margin-bottom: 10px;
   }
 
+  .table-wrapper { display: block !important; overflow: visible !important; }
   .table {
     border: 1px solid #000;
     border-collapse: collapse;
     width: 100%;
     font-size: 11px;
   }
-
   .table th, .table td {
     border: 1px solid #000 !important;
     padding: 6px !important;
     text-align: center;
   }
-
   .table th {
     background: #e0e0e0 !important;
     color: black !important;
   }
 
-  /* เปลี่ยน badge/number ให้ขาวดำเวลา print */
   .status-number,
   .status-badge {
     background: none !important;
     color: black !important;
     border: 1px solid #000 !important;
+    box-shadow: none !important;
   }
 }

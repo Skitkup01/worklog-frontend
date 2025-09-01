@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
-import { FileText, FileSpreadsheet, Power } from "lucide-react"; // ✅ ใช้ icon
+import { FileText, FileSpreadsheet, Power } from "lucide-react"; 
 import totoroWalk from "./assets/Totoro.json";
 import "./NavBarAdmin.css";
 
@@ -25,7 +25,7 @@ export default function NavBarAdmin({ onLogout }) {
 
         {/* ปุ่ม hamburger (มือถือ) */}
         <div
-          className="hamburger"
+          className={`hamburger ${menuOpen ? "open" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <span></span>
@@ -51,7 +51,13 @@ export default function NavBarAdmin({ onLogout }) {
             <FileSpreadsheet size={18} className="icon" /> รายงานนักศึกษา
           </Link>
 
-          <button className="navBtn danger" onClick={onLogout}>
+          <button
+            className="navBtn danger"
+            onClick={() => {
+              setMenuOpen(false);
+              onLogout();
+            }}
+          >
             <Power size={18} className="icon" /> ออกจากระบบ
           </button>
         </div>

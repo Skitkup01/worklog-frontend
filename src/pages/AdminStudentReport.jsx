@@ -88,7 +88,6 @@ export default function AdminStudentReport() {
           onChange={(e) => setSearchStudentCode(e.target.value)}
         />
 
-        {/* ✅ เลือกมหาวิทยาลัยจากลิสต์ */}
         <select
           className="input"
           value={searchUniversity}
@@ -109,7 +108,7 @@ export default function AdminStudentReport() {
 
       {error && <p className="error">{error}</p>}
 
-      {/* ตารางสรุป */}
+      {/* ✅ ตารางสรุป (Desktop) */}
       <div className="table-wrapper no-print">
         <table className="table">
           <thead>
@@ -141,6 +140,23 @@ export default function AdminStudentReport() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* ✅ Card View (Mobile) */}
+      <div className="card-list no-print">
+        {reports.length > 0 ? (
+          reports.map((r, index) => (
+            <div key={index} className="card-report">
+              <p><strong>👤 ชื่อ:</strong> {r.fullname}</p>
+              <p><strong>🆔 รหัส:</strong> {r.student_code}</p>
+              <p><strong>🏫 มหาวิทยาลัย:</strong> {r.university}</p>
+              <p><strong>✅ อนุมัติ:</strong> {r.approved} | <strong>❌ ปฏิเสธ:</strong> {r.rejected}</p>
+              <p><strong>⏳ รออนุมัติ:</strong> {r.pending} | <strong>📊 รวม:</strong> {r.total}</p>
+            </div>
+          ))
+        ) : (
+          <p className="no-data">ไม่มีข้อมูล</p>
+        )}
       </div>
 
       {/* รายละเอียด */}

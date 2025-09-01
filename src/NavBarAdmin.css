@@ -1,3 +1,4 @@
+/* 🎨 Navbar */
 .nav {
   background: linear-gradient(90deg, #1f2937, #111827);
   backdrop-filter: blur(10px);
@@ -16,14 +17,13 @@
   align-items: center;
 }
 
-/* กลุ่มซ้าย (Totoro + ข้อความ) */
+/* ================= Left (Totoro + Brand) ================= */
 .left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* 🐱 Totoro เดิน */
 .totoro-walk {
   width: 55px;
   height: 55px;
@@ -42,7 +42,6 @@
   100% { transform: translateX(0) scaleX(1); }
 }
 
-/* ข้อความ */
 .brand {
   color: #f3f4f6;
 }
@@ -60,13 +59,12 @@
   margin-top: 2px;
 }
 
-/* เมนู */
+/* ================= Menu Links ================= */
 .links {
   display: flex;
   gap: 12px;
 }
 
-/* ปุ่ม */
 .navBtn {
   padding: 8px 16px;
   border-radius: 8px;
@@ -77,15 +75,20 @@
   transition: all 0.3s ease;
   border: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  display: flex;          /* ✅ ช่วย align icon+text */
-  align-items: center;    /* ✅ ให้อยู่กึ่งกลางแนวตั้ง */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navBtn .icon {
+  margin-right: 6px;
+  vertical-align: middle;
 }
 
 .primary {
   background: rgba(255, 255, 255, 0.1);
   color: #f3f4f6;
 }
-
 .primary:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: translateY(-2px);
@@ -96,24 +99,18 @@
   color: #fff;
   font-weight: 600;
 }
-
 .danger:hover {
   background: linear-gradient(90deg, #f87171, #ef4444);
   transform: scale(1.05);
 }
 
-/* ไอคอน */
-.icon {
-  margin-right: 6px;
-  vertical-align: middle;
-}
-
-/* ปุ่ม hamburger */
+/* ================= Hamburger Menu ================= */
 .hamburger {
   display: none;
   flex-direction: column;
   cursor: pointer;
   gap: 5px;
+  transition: transform 0.3s ease;
 }
 
 .hamburger span {
@@ -121,10 +118,21 @@
   height: 3px;
   background: white;
   border-radius: 5px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
-/* 📱 Responsive */
+/* แปลงเป็นกากบาทเวลาเปิดเมนู */
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ================= Responsive ================= */
 @media (max-width: 768px) {
   .container {
     flex-direction: row;
@@ -138,8 +146,9 @@
     flex-direction: column;
     background: rgba(17, 24, 39, 0.95);
     backdrop-filter: blur(10px);
-    padding: 10px 0;
+    padding: 12px 0;
     display: none;
+    animation: fadeIn 0.3s ease;
   }
 
   .links.open {
@@ -149,14 +158,20 @@
   .navBtn {
     width: 100%;
     text-align: center;
-    justify-content: center; /* ✅ icon + text กลาง */
   }
 
   .hamburger {
     display: flex;
   }
 
-  .brand h1, .brand .welcome {
+  .brand h1,
+  .brand .welcome {
     font-size: 0.95rem;
   }
+}
+
+/* ================= Animations ================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

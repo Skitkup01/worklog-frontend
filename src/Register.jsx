@@ -14,8 +14,16 @@ export default function Register() {
   const [err, setErr] = useState("");
   const [showGuide, setShowGuide] = useState(false);
   const [closing, setClosing] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const navigate = useNavigate();
+
+  // ✅ detect mobile resize
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // ✅ popup โผล่ทุก 1 ชั่วโมง
   useEffect(() => {
@@ -101,15 +109,34 @@ export default function Register() {
         </div>
       )}
 
-      <div style={styles.wrapper}>
-        {/* 🐶 หมาด้านซ้าย */}
-        <div style={styles.dogWrapper}>
-          <Lottie animationData={puppyAnimation} loop={true} style={{ width: 170, height: 170 }} />
+      <div
+        style={{
+          ...styles.wrapper,
+          flexDirection: isMobile ? "column" : "row",
+          padding: isMobile ? "20px" : "28px",
+          width: isMobile ? "95%" : "100%",
+        }}
+      >
+        {/* 🐶 หมาด้านบน (ถ้าเป็นมือถือ) */}
+        <div style={{ ...styles.dogWrapper, marginBottom: isMobile ? "15px" : "0" }}>
+          <Lottie
+            animationData={puppyAnimation}
+            loop={true}
+            style={{ width: isMobile ? 140 : 170, height: isMobile ? 140 : 170 }}
+          />
         </div>
 
         {/* ฟอร์มสมัคร */}
-        <form onSubmit={handleSubmit} style={styles.card}>
-          <h1 style={styles.title}>✨ สร้างบัญชีใหม่</h1>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            ...styles.card,
+            maxWidth: isMobile ? "100%" : "380px",
+          }}
+        >
+          <h1 style={{ ...styles.title, fontSize: isMobile ? "1.4rem" : "1.7rem" }}>
+            ✨ สร้างบัญชีใหม่
+          </h1>
           <p style={styles.subtitle}>กรอกข้อมูลให้ครบเพื่อเริ่มใช้งานระบบ</p>
           {err && <p style={styles.error}>{err}</p>}
 
@@ -148,7 +175,7 @@ const styles = {
     alignItems: "center",
     background: "linear-gradient(135deg, #ecfdf5, #f0fdfa)",
     fontFamily: "'Inter', sans-serif",
-    padding: "20px",
+    padding: "15px",
     position: "relative",
   },
   wrapper: {
@@ -156,10 +183,9 @@ const styles = {
     alignItems: "center",
     gap: "20px",
     background: "rgba(255,255,255,0.95)",
-    padding: "28px",
     borderRadius: "18px",
     boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
-    maxWidth: "650px",
+    maxWidth: "750px",
     width: "100%",
     flexWrap: "wrap",
     zIndex: 1,
@@ -172,13 +198,12 @@ const styles = {
   card: {
     flex: 1.3,
     minWidth: "260px",
-    padding: "24px",
+    padding: "20px",
     borderRadius: 14,
     background: "#ffffff",
     textAlign: "center",
   },
   title: {
-    fontSize: "1.7rem",
     fontWeight: 700,
     marginBottom: "6px",
     color: "#064e3b",
@@ -229,8 +254,6 @@ const styles = {
     textDecoration: "none",
     fontWeight: 600,
   },
-
-  /* ✅ Popup */
   overlay: {
     position: "fixed",
     top: 0, left: 0, right: 0, bottom: 0,

@@ -1,3 +1,4 @@
+/* =================== Container =================== */
 .admin-page {
   max-width: 1200px;
   margin: 40px auto;
@@ -17,7 +18,7 @@
   letter-spacing: 0.5px;
 }
 
-/* แถวฟิลเตอร์ */
+/* =================== Filter Row =================== */
 .filter-row {
   display: flex;
   flex-wrap: wrap;
@@ -28,7 +29,6 @@
   width: 100%;
 }
 
-/* ช่อง input ทั่วไป */
 .input {
   padding: 12px 14px;
   border-radius: 10px;
@@ -36,7 +36,7 @@
   font-size: 15px;
   background: white;
   transition: all 0.25s ease;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 .input:focus {
@@ -45,9 +45,9 @@
   outline: none;
 }
 
-/* ✅ กล่องผู้อนุมัติ - ย้ายไปขวาสุด */
+/* Approver Box */
 .approver-box {
-  margin-left: auto; /* ดันไปขวาสุด */
+  margin-left: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -63,13 +63,7 @@
 .input.approver-input {
   border: 2px solid #6c63ff;
   font-weight: 500;
-  min-width: 220px;
-  border-radius: 10px;
-}
-
-.input.approver-input:focus {
-  border-color: #3b3b98;
-  box-shadow: 0 0 8px rgba(59, 59, 152, 0.25);
+  min-width: 200px;
 }
 
 .error {
@@ -79,7 +73,7 @@
   font-weight: bold;
 }
 
-/* ================= ตาราง ================= */
+/* =================== Table =================== */
 .table-wrapper {
   overflow-x: auto;
 }
@@ -105,7 +99,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* ทำให้แถวเป็นการ์ด */
+/* Rounded row edges */
 .table tbody tr td:first-child {
   border-radius: 8px 0 0 8px;
 }
@@ -121,12 +115,13 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* ================= สถานะ ================= */
+/* =================== Status Badge =================== */
 .status {
   font-weight: bold;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 20px;
   display: inline-block;
+  font-size: 0.9rem;
 }
 
 .status.approved {
@@ -134,7 +129,7 @@
   color: #16a34a;
 }
 .status.pending {
-  background: rgba(250, 204, 21, 0.15);
+  background: rgba(250, 204, 21, 0.2);
   color: #f59e0b;
 }
 .status.rejected {
@@ -142,7 +137,7 @@
   color: #dc2626;
 }
 
-/* ================= ปุ่ม ================= */
+/* =================== Buttons =================== */
 .btn {
   padding: 8px 14px;
   border: none;
@@ -150,7 +145,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin: 0 4px;
+  margin: 2px;
+  font-size: 0.9rem;
 }
 
 .btn:disabled {
@@ -164,7 +160,7 @@
   box-shadow: 0 0 6px rgba(0,0,0,0.2);
 }
 
-/* อนุมัติ */
+/* Approve */
 .btn.approve {
   background: linear-gradient(135deg, #4ade80, #22c55e);
   color: white;
@@ -174,7 +170,7 @@
   transform: scale(1.05);
 }
 
-/* ปฏิเสธ */
+/* Reject */
 .btn.reject {
   background: linear-gradient(135deg, #f87171, #ef4444);
   color: white;
@@ -184,7 +180,7 @@
   transform: scale(1.05);
 }
 
-/* รออนุมัติ */
+/* Pending */
 .btn.pending {
   background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: white;
@@ -194,8 +190,76 @@
   transform: scale(1.05);
 }
 
-/* ================= Animation ================= */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* =================== Card View (Mobile) =================== */
+.log-cards {
+  display: none;
+}
+
+.log-card {
+  background: #fff;
+  padding: 16px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-size: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.log-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
+
+.log-card p { margin: 6px 0; }
+.log-card strong { color: #2c3e50; }
+
+/* Card buttons */
+.card-buttons {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.card-buttons button { flex: 1; }
+
+/* Status background for cards */
+.log-card .status.approved {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.log-card .status.pending {
+  background: #fef9c3;
+  color: #b45309;
+}
+.log-card .status.rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* =================== Responsive =================== */
+.desktop-only { display: table; }
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input, .approver-box {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .log-card { font-size: 13px; padding: 12px; }
+  .card-buttons button { font-size: 0.8rem; }
 }

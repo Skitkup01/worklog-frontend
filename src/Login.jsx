@@ -2,22 +2,30 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import LoadingScreen from "./LoadingScreen";
-import fatCatAnimation from "./assets/HalloweenCat.json"; // 🐱 ไฟล์แมวอ้วน
+import fatCatAnimation from "./assets/HalloweenCat.json"; // 🐱
 
 export default function Login({ onLoginSuccess }) {
   const [loginValue, setLoginValue] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showGuide, setShowGuide] = useState(false); // เริ่มต้น false
+  const [showGuide, setShowGuide] = useState(false);
   const [closing, setClosing] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const navigate = useNavigate();
 
-  // ✅ เปิด popup แค่ทุก 1 ชั่วโมง
+  // ✅ Resize listener
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // ✅ popup แค่ทุก 1 ชั่วโมง
   useEffect(() => {
     const lastSeen = localStorage.getItem("loginGuideLastSeen");
-    const oneHour = 60 * 60 * 1000; // 1 ชั่วโมง
+    const oneHour = 60 * 60 * 1000;
     if (!lastSeen || Date.now() - parseInt(lastSeen, 10) > oneHour) {
       setShowGuide(true);
     }
@@ -29,16 +37,13 @@ export default function Login({ onLoginSuccess }) {
       localStorage.setItem("loginGuideLastSeen", Date.now().toString());
       setShowGuide(false);
       setClosing(false);
-    }, 250); // รออนิเมชันปิด
+    }, 250);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErr("");
     setLoading(true);
-
-    const MIN_LOADING_TIME = 3000;
-    const startTime = Date.now();
 
     try {
       const res = await fetch("http://localhost:5001/api/login", {
@@ -54,21 +59,8 @@ export default function Login({ onLoginSuccess }) {
       localStorage.setItem("role", data.user.role);
       localStorage.setItem("fullname", data.user.fullname);
 
-      setLoginValue("");
-      setPassword("");
-
-      const elapsed = Date.now() - startTime;
-      const remaining = MIN_LOADING_TIME - elapsed;
-
-      setTimeout(() => {
-        if (onLoginSuccess) onLoginSuccess(data.user);
-        if (data.user.role === "admin") {
-          navigate("/admin-daily-logs", { replace: true });
-        } else {
-          navigate("/dashboard", { replace: true });
-        }
-      }, remaining > 0 ? remaining : 0);
-
+      if (onLoginSuccess) onLoginSuccess(data.user);
+      navigate(data.user.role === "admin" ? "/admin-daily-logs" : "/dashboard", { replace: true });
     } catch (error) {
       setErr(error.message);
       setLoading(false);
@@ -79,7 +71,6 @@ export default function Login({ onLoginSuccess }) {
 
   return (
     <div style={styles.page}>
-      {/* ✅ keyframes animation */}
       <style>
         {`
           @keyframes popIn {
@@ -114,15 +105,36 @@ export default function Login({ onLoginSuccess }) {
         </div>
       )}
 
-      <div style={styles.wrapper}>
-        {/* 🐱 แมวนอนอ้วน */}
+      <div
+        style={{
+          ...styles.wrapper,
+          flexDirection: isMobile ? "column" : "row",
+          padding: isMobile ? "25px" : "40px",
+          width: isMobile ? "100%" : "auto",
+          maxWidth: isMobile ? "95%" : "900px",
+        }}
+      >
+        {/* 🐱 แมว */}
         <div style={styles.catWrapper}>
-          <Lottie animationData={fatCatAnimation} loop={true} style={{ width: 260, height: 260 }} />
+          <Lottie
+            animationData={fatCatAnimation}
+            loop={true}
+            style={{ width: isMobile ? 180 : 260, height: isMobile ? 180 : 260 }}
+          />
         </div>
 
         {/* ฟอร์ม */}
-        <form onSubmit={handleSubmit} style={styles.card}>
-          <h1 style={styles.title}>🔑 Welcome Back</h1>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            ...styles.card,
+            maxWidth: isMobile ? "100%" : "380px",
+            padding: isMobile ? "25px 20px" : "40px 32px",
+          }}
+        >
+          <h1 style={{ ...styles.title, fontSize: isMobile ? "1.5rem" : "1.9rem" }}>
+            🔑 Welcome Back
+          </h1>
           <p style={styles.subtitle}>เข้าสู่ระบบเพื่อจัดการงานของคุณ</p>
           {err && <p style={styles.error}>{err}</p>}
 
@@ -162,16 +174,15 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     background: "linear-gradient(135deg, #eff6ff, #e0f2fe)",
-    padding: "20px",
+    padding: "15px",
     fontFamily: "'Inter', sans-serif",
     position: "relative",
   },
   wrapper: {
     display: "flex",
     alignItems: "center",
-    gap: "40px",
+    gap: "25px",
     background: "#fff",
-    padding: "40px",
     borderRadius: "20px",
     boxShadow: "0 10px 35px rgba(0,0,0,0.08)",
     zIndex: 1,
@@ -180,18 +191,15 @@ const styles = {
     flex: 1,
     display: "flex",
     justifyContent: "center",
+    marginBottom: "10px",
   },
   card: {
     flex: 1,
-    minWidth: "300px",
-    maxWidth: "380px",
-    padding: "40px 32px",
-    borderRadius: 20,
     background: "#ffffff",
     textAlign: "center",
+    borderRadius: "20px",
   },
   title: {
-    fontSize: "1.9rem",
     fontWeight: 700,
     marginBottom: "10px",
     color: "#1e3a8a",
@@ -241,8 +249,6 @@ const styles = {
     textDecoration: "none",
     fontWeight: 600,
   },
-
-  /* ✅ Popup styles */
   overlay: {
     position: "fixed",
     top: 0, left: 0, right: 0, bottom: 0,
